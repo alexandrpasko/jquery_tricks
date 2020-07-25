@@ -12,4 +12,4 @@ The project is a single interactive web page where a user can choose a design th
 * Photoshop
 
 ## Screenshot:
-![Screenshot of layout](screenshot.jpg)
+![Screenshot of layout](screenshot.png)
