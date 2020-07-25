@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<link href="https://fonts.googleapis.com/css?family=Josefin+Sans:400,700%7cYeon+Sung&display=swap" rel="stylesheet">
+	<title>Assignment 3, jQuery</title>
+	<style>
+		body{
+			font-family: 'Josefin Sans', Helvetica, Arial, sans-serif;
+			margin: 0px;
+			padding: 0px;
+			background-color: #eee;
+		}
+		/* wrapper area for all sections */
+		.wrapper{
+			width: 960px;
+			margin: 0px auto;
+			/* border: 1px solid #ccc; */
+			padding-top: 1px;
+
+		}
+/* styles for header and its content */
+		header{
+			height: 500px;
+			background-image: url(blue.jpg);
+			background-size: cover;
+			background-position: center;
+			padding-top: 1px;
+			position: relative;
+		}
+		/* flying box for onload function with its content */
+		#alert{
+			position: absolute;
+			width: 400px;
+			height: 300px;
+			top: 100px;
+			left: -300px;
+			padding: 30px;
+			background-color: #ddd;
+			border-radius: 10px;
+			opacity: 0;
+			transition: all 1s ease-in-out;
+		}
+		div#close_icon{
+			width: 24px;
+			height: 24px;
+			position: relative;
+			left: 380px;
+			top: 0px;
+		}
+		div#first_line{
+			position: absolute;
+			top: 10px;
+			background-color: #da5353;
+			width: 24px;
+			height: 4px;
+			transform: rotate(45deg);
+			transition: all 0.3s linear;
+		}
+		#close_icon:hover div#first_line{
+			transform: rotate(135deg);
+		}
+		div#second_line{
+			position: absolute;
+			top: 10px;
+			background-color: #da5353;
+			width: 24px;
+			height: 4px;
+			transform: rotate(-45deg);
+			transition: all 0.3s linear;
+		}
+		#close_icon:hover div#second_line{
+			transform: rotate(45deg);
+		}
+		#alert h2{
+			line-height: 1.5em;
+			margin-top: 0px;
+		}
+		p#logo{
+			float: right;
+			margin-top: 30px;
+		}
+		.red{
+			color: #da5353;
+			font-weight: 700;
+			font-size: 1.3em;
+		}
+		.green{
+			color: #65cd62;
+			font-weight: 700;
+			font-size: 1.3em;
+		}
+		.blue{
+			color: #63d4f2;
+			font-weight: 700;
+			font-size: 1.3em;
+		}
+		input{
+			margin-bottom: 20px;
+			margin-left: 20px;
+		}
+		h1{
+			color: #fff;
+			width: 420px;
+			line-height: 1.5em;
+			margin: 30px 0px;
+			font-weight: 400;
+		}
+		h1 span{
+			color: #63d4f2;
+		}
+		button{
+			display: block;
+			background-color: rgba(0,0,0,0);
+			border: 2px solid #fff;
+			color: #fff;
+			font-family: 'Yeon Sung', Helvetica, Arial, sans-serif;
+			text-transform: uppercase;
+			font-size: 2.2em;
+			width: 250px;
+			margin: 30px 0px;
+			cursor: pointer;
+			
+		}
+		/* 
+		button:visited{
+			border-color: #f00;
+		} */
+		button#green{
+			color: #65cd62;
+			border-color: #65cd62;
+		}
+		button#green:hover{
+			color: #fff;
+			background-color: #65cd62;
+		}
+		button#blue{
+			color: #63d4f2;
+			border-color: #63d4f2;
+		}
+		button#blue:hover{
+			color: #fff;
+			background-color: #63d4f2;
+		}
+		button#red{
+			color: #da5353;
+			border-color: #da5353;
+		}
+		button#red:hover{
+			color: #fff;
+			background-color: #da5353;
+		}
+/* styles for navigation */
+		nav{
+			background-color: #63d4f2;
+		}
+		button.in_nav{
+			display: inline-block;
+			width: 200px;
+			margin: 16px;
+			font-size: 1.8em;
+			color: #000;
+			border-color: #000;
+		}
+		button.in_nav:hover{
+			color: #fff;
+			border-color: #fff;
+		}
+		button.small{
+			font-size: 1.1em;
+			padding: 11px 0px 5px 0px;
+		}
+		button.medium{
+			font-size: 1.4em;
+			padding: 7px 0px 3px 0px;
+		}
+		button.large{
+			font-size: 1.8em;
+		}
+/* section hidden styles */
+		section#hidden{
+			background-image: url(hidden.jpg);
+			background-size: cover;
+			background-position: center;
+			/* min-height: 250px; */
+			display: none;
+			padding-bottom: 20px;
+		}
+		h2#hidden_h{
+			color: #fff;
+
+		}
+		p#hidden_p{
+			line-height: 1.5em;
+			color: #ccc;
+		}
+/* main section styles */
+		section h2{
+			margin-top: 30px;
+		}
+		p.text{
+			margin-bottom: 0px;
+			line-height: 1.5em;
+		}
+		p.reference{
+			text-align: right;
+			margin-top: 0px;
+			color: #63d4f2;
+		}
+/* footer styles */
+		footer{
+			background-color: #63d4f2;
+			padding: 20px;
+			margin-top: 30px;
+		}
+		footer p{
+			text-align: center;
+			font-size: 1.5em;
+			color: #fff;
+		}
+	</style>
+</head>
+<!--
+
+   ALEXAN    DR         PASKOALE   XA     ND    RPASKO    AL    EX   ANDRPA     SKOALEX 
+  AL    EX   AN         DR          PA   SK    OA    LE   XAN   DR   PA   SK    OA    LE
+  AL    EX   AN         DR           PA SK     OA    LE   XAND  RP   AS    KO   AL    EX
+  ALEXANDR   PA         SKOALEXA      NDR      PASKOALE   XA ND RP   AS    KO   ALEXAND
+  AL    EX   AN         DR           PA SK     OA    LE   XA  NDRP   AS    KO   AL  EX 
+  AL    EX   AN         DR          PA   SK    OA    LE   XA   NDR   PA   SK    OA   LE
+  AL    EX   ANDRPASK   OALEXAND   RP     AS   KO    AL   EX    AN   DRPASK     OA    LE
+
+
+  ALEXAND     RPASKO     ALEXAND   RP    AS    KOALEX
+  AL    EX   AN    DR   PA         SK   OA    LE    XA
+  AL    EX   AN    DR   PA         SK  OA     LE    XA 
+  ALEXAND    RP    AS    KOALEX    ANDRP      AS    KO
+  AL         EXANDRPA         SK   OA  LE     XA    ND
+  AL         EX    AN         DR   PA   SK    OA    LE
+  AL         EX    AN   DRPASKO    AL    EX    ANDRPA
+ 
+id="Alexandr_Pasko_Web_Development_Diploma_2019";
+font-family: "ALEXANDR_PASKO", "no_need_backup_runs_everywhere";
+Cool font, hey?
+--> 
+<body>
+
+	<header>
+
+		<!-- sliding in box with its attributes -->
+		<div id="alert">
+			<div id="close_icon">
+				<div id="first_line"></div>
+				<div id="second_line"></div>
+			</div>
+			<h2>Do Not Forget to Check Out a New Design Selection Feature on Our Website!</h2>
+			<p>For now just choose <span class="red">Preferable Color</span>:</p>
+
+			<input type="radio" id="radio_red" name="choose" value="red">
+		    <label for="radio_red" class="red">Red</label><br>
+
+		    <input type="radio" id="radio_green" name="choose" value="green">
+		    <label for="radio_green" class="green">Green</label><br>
+
+		    <input type="radio" id="radio_blue" name="choose" value="blue">
+		    <label for="radio_blue" class="blue">Blue</label>
+		</div><!-- end of the sliding in box -->
+
+		<div class="wrapper">
+			<p id="logo"><img src="blue.svg" alt="logo" width="80" height="80"></p>
+			<h1><span>Design Selection? </span><br />Your Individuality Matters<br /> Choose Your Own Style</h1>
+			<button id='red'>Red</button>
+			<button id='green'>Green</button>
+			<button id='blue'>Blue</button>
+		</div>
+	</header>
+	<nav>
+		<div class="wrapper">
+			<button class='show in_nav'>Show Box</button>
+			<button class='small in_nav' title="small font size">Small</button>
+			<button class='medium in_nav' title="medium font size">Medium</button>
+			<button class='large in_nav' title="large font size">Large</button>
+		</div>
+	</nav>
+	<section id="hidden">
+		<div class="wrapper">
+			<h2 id="hidden_h">Did You Know?</h2>
+			<p id="hidden_p">Color (American English), or colour (Commonwealth English), is the characteristic of visual perception described through color categories, with names such as red, orange, yellow, green, blue, or purple. This perception of color derives from the stimulation of photoreceptor cells (in particular cone cells in the human eye and other vertebrate eyes) by electromagnetic radiation (in the visible spectrum in the case of humans). Color categories and physical specifications of color are associated with objects through the wavelength of the light that is reflected from them. This reflection is governed by the object's physical properties such as light absorption, emission spectra, etc.</p>
+		</div>
+	</section>
+	<section>
+		<div class="wrapper">
+			<h2>A little bit about the colors...</h2>
+			<p class="text"><span class="red">Red</span> is the color at the end of the visible spectrum of light, next to orange and opposite violet. It has a dominant wavelength of approximately 625–740 nanometres. It is a primary color in the RGB color model and the CMYK color model, and is the complementary color of cyan. Reds range from the brilliant yellow-tinged scarlet and vermillion to bluish-red crimson, and vary in shade from the pale red pink to the dark red burgundy. The red sky at sunset results from Rayleigh scattering, while the red color of the Grand Canyon and other geological features is caused by hematite or red ochre, both forms of iron oxide. Iron oxide also gives the red color to the planet Mars. The red color of blood comes from the protein hemoglobin, while ripe strawberries, red apples and reddish autumn leaves are colored by anthocyanins.</p>
+			<p class="reference">wikipedia.org</p>
+			<p class="text"><span class="green">Green</span> is the color between blue and yellow on the visible spectrum. It is evoked by light which has a dominant wavelength of roughly 495–570 nm. In subtractive color systems, used in painting and color printing, it is created by a combination of yellow and blue, or yellow and cyan; in the RGB color model, used on television and computer screens, it is one of the additive primary colors, along with red and blue, which are mixed in different combinations to create all other colors. By far the largest contributor to green in nature is chlorophyll, the chemical by which plants photosynthesize and convert sunlight into chemical energy. Many creatures have adapted to their green environments by taking on a green hue themselves as camouflage. Several minerals have a green color, including the emerald, which is colored green by its chromium content.</p>
+			<p class="reference">wikipedia.org</p>
+			<p class="text"><span class="blue">Blue</span> is one of the three primary colours of pigments in painting and traditional colour theory, as well as in the RGB colour model. It lies between violet and green on the spectrum of visible light. The eye perceives blue when observing light with a dominant wavelength between approximately 450 and 495 nanometres. Most blues contain a slight mixture of other colours; azure contains some green, while ultramarine contains some violet. The clear daytime sky and the deep sea appear blue because of an optical effect known as Rayleigh scattering. An optical effect called Tyndall scattering explains blue eyes. Distant objects appear more blue because of another optical effect called aerial perspective.</p>
+			<p class="reference">wikipedia.org</p>
+			
+		</div>
+	</section>
+	<footer>
+		<div class="wrapper">
+			<p>&#169; Copyright 2020, Alexandr Pasko</p>
+		</div>
+	</footer>
+	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+	<script>
+
+		var showHide = false;//switch show and hide box feature
+		
+		$(document).ready(function(){
+
+			//box fades in onload
+			$('div#alert').css({
+				left: '300px',
+				opacity: '1',
+			});
+
+			//box fades and slides out
+			$('div#close_icon').click(function(){
+				$('div#alert').css({
+					left: '-300px',
+					opacity: '0'
+				});
+
+				//set initial preferable color
+				var choosen = document.querySelector('input[name="choose"]:checked').value;
+
+				if(choosen === 'red'){
+					$('header').css('background-image','url(red.jpg)');
+					$('nav').css('background-color','#da5353');
+					$('p.reference').css('color','#da5353');
+					$('h1 span').css('color','#da5353');
+					$('footer').css('background-color','#da5353');
+					$('p img').attr('src','red.svg');
+				}else if(choosen === 'green'){
+					$('header').css('background-image','url(green.jpg)');
+					$('nav').css('background-color','#65cd62');
+					$('p.reference').css('color','#65cd62');
+					$('h1 span').css('color','#65cd62');
+					$('footer').css('background-color','#65cd62');
+					$('p img').attr('src','green.svg');
+				}else if(choosen === 'blue'){
+					$('header').css('background-image','url(blue.jpg)');
+					$('nav').css('background-color','#63d4f2');
+					$('p.reference').css('color','#63d4f2');
+					$('h1 span').css('color','#63d4f2');
+					$('footer').css('background-color','#63d4f2');
+					$('p img').attr('src','blue.svg');
+				}
+			});
+
+			//small font size function
+			$('button.small').click(function(e){
+				$('p.text, p#hidden_p').css('font-size','12px');
+			});
+
+			//medium font size function
+			$('button.medium').click(function(e){
+				$('p.text, p#hidden_p').css('font-size','16px');
+			});
+
+			//large font size function
+			$('button.large').click(function(e){
+				$('p.text, p#hidden_p').css('font-size','20px');
+			});
+
+			//show/hide box function
+			$('button.show').click(function(e){
+				if(showHide == false){
+					$('section#hidden').slideDown('slow');
+					$('button.show').html('Hide Box');
+					showHide = true;
+				}else{
+					$('section#hidden').slideUp('slow');
+					$('button.show').html('Show Box');
+					showHide = false;
+				}
+			});
+
+			//enable red design
+			$('button#red').click(function(e){
+				$('header').css('background-image','url(red.jpg)');
+				$('nav').css('background-color','#da5353');
+				$('p.reference').css('color','#da5353');
+				$('h1 span').css('color','#da5353');
+				$('footer').css('background-color','#da5353');
+				$('p img').attr('src','red.svg');
+			});
+			
+			//enable green design	
+			$('button#green').click(function(e){
+				$('header').css('background-image','url(green.jpg)');
+				$('nav').css('background-color','#65cd62');
+				$('p.reference').css('color','#65cd62');
+				$('h1 span').css('color','#65cd62');
+				$('footer').css('background-color','#65cd62');
+				$('p img').attr('src','green.svg');
+
+			});
+
+			//enable blue design
+			$('button#blue').click(function(e){
+				$('header').css('background-image','url(blue.jpg)');
+				$('nav').css('background-color','#63d4f2');
+				$('p.reference').css('color','#63d4f2');
+				$('h1 span').css('color','#63d4f2');
+				$('footer').css('background-color','#63d4f2');
+				$('p img').attr('src','blue.svg');
+			});
+			
+		});
+
+	</script>
+
+
+</body>
+</html>
